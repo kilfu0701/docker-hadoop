@@ -18,13 +18,13 @@ ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends net-tools curl netcat
 
 ENV HADOOP_VERSION 2.10.1
-#ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 #ENV HADOOP_URL https://archive.apache.org/dist/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
 
-COPY hadoop-2.10.1.tar.gz /tmp/hadoop.tar.gz
+#COPY hadoop-2.10.1.tar.gz /tmp/hadoop.tar.gz
 
 RUN set -x \
-    #&& curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
+    && curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
     #&& curl -fSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc \
     #&& chmod +x /tmp/hadoop.tar.gz.asc /tmp/hadoop.tar.gz \
     #&& gpg --verify /tmp/hadoop.tar.gz.asc \
