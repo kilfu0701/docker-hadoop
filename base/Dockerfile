@@ -13,12 +13,11 @@ RUN curl -O https://cdn.azul.com/zulu/bin/zulu-repo_1.0.0-3_all.deb \
 
 RUN apt-get update && apt-get install -y zulu8-jdk
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
-
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends net-tools curl netcat
 
 ENV HADOOP_VERSION 2.10.1
-ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+#ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+ENV HADOOP_URL https://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 #ENV HADOOP_URL https://archive.apache.org/dist/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
 
 #COPY hadoop-2.10.1.tar.gz /tmp/hadoop.tar.gz
@@ -30,6 +29,8 @@ RUN set -x \
     #&& gpg --verify /tmp/hadoop.tar.gz.asc \
     && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
     && rm /tmp/hadoop.tar.gz*
+
+ENV JAVA_HOME=/usr/lib/jvm/zulu8-ca-arm64/
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -48,5 +49,13 @@ ENV PATH $HADOOP_PREFIX/bin/:$PATH
 
 ADD base/entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
+
+#ADD libleveldbjni.so /usr/java/packages/lib/aarch64/libleveldbjni.so
+ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/yarn/lib/leveldbjni-all-1.8.jar
+ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/tools/lib/leveldbjni-all-1.8.jar
+ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/hdfs/lib/leveldbjni-all-1.8.jar
+ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/mapreduce/lib/leveldbjni-all-1.8.jar
+ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/httpfs/tomcat/webapps/webhdfs/WEB-INF/lib/leveldbjni-all-1.8.jar
+
 
 ENTRYPOINT ["/entrypoint.sh"]
