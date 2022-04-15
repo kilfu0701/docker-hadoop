@@ -17,10 +17,14 @@ Docker images for hadoop
 - nodemanager - https://hub.docker.com/repository/docker/kilfu0701/hadoop-namenode
 - resourcemanager - https://hub.docker.com/repository/docker/kilfu0701/hadoop-resourcemanager
 
-## Build
+## Build images
 ```sh
 make build
 ```
+
+## How To Use
+
+See https://github.com/kilfu0701/hive-hbase-dokcer/tree/v2
 
 ## License
 MIT
