@@ -15,12 +15,9 @@ RUN apt-get update && apt-get install -y zulu8-jdk
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends net-tools curl netcat
 
-ENV HADOOP_VERSION 2.10.1
+ENV HADOOP_VERSION 3.3.2
 #ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 ENV HADOOP_URL https://archive.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
-#ENV HADOOP_URL https://archive.apache.org/dist/hadoop/common/hadoop-2.7.4/hadoop-2.7.4.tar.gz
-
-#COPY hadoop-2.10.1.tar.gz /tmp/hadoop.tar.gz
 
 RUN set -x \
     && curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
@@ -35,7 +32,7 @@ ENV JAVA_HOME=/usr/lib/jvm/zulu8-ca-arm64/
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
-RUN cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml
+#RUN cp /etc/hadoop/mapred-site.xml.template /etc/hadoop/mapred-site.xml
 RUN mkdir /opt/hadoop-$HADOOP_VERSION/logs
 
 RUN mkdir /hadoop-data
@@ -50,12 +47,7 @@ ENV PATH $HADOOP_PREFIX/bin/:$PATH
 ADD base/entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
 
-#ADD libleveldbjni.so /usr/java/packages/lib/aarch64/libleveldbjni.so
-ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/yarn/lib/leveldbjni-all-1.8.jar
-ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/tools/lib/leveldbjni-all-1.8.jar
-ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/hdfs/lib/leveldbjni-all-1.8.jar
-ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/mapreduce/lib/leveldbjni-all-1.8.jar
-ADD leveldbjni-all-1.8.jar /opt/hadoop-2.10.1/share/hadoop/httpfs/tomcat/webapps/webhdfs/WEB-INF/lib/leveldbjni-all-1.8.jar
-
+## replace new leveldbjni-all-1.8.jar for aarch64
+ADD leveldbjni-all-1.8.jar /opt/hadoop-$HADOOP_VERSION/share/hadoop/hdfs/lib/leveldbjni-all-1.8.jar
 
 ENTRYPOINT ["/entrypoint.sh"]

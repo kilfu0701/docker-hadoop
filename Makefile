@@ -9,4 +9,4 @@ build:
 	docker build --no-cache -t kilfu0701/hadoop-historyserver:$(current_branch) -f historyserver/Dockerfile .
 
 test_historyserver:
-	docker run --env-file hadoop-hive.env -ti kilfu0701/hadoop-base:2.10.1-java8 yarn --config /opt/hadoop-2.10.1/etc/hadoop historyserver
+	docker run --env-file hadoop-hive.env -ti kilfu0701/hadoop-base:3.3.2-java8 yarn --config /opt/hadoop-3.3.2/etc/hadoop historyserver

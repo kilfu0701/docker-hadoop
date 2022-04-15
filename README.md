@@ -5,7 +5,7 @@ Docker images for hadoop
 ## Version
 
 - Debian 11
-- Hadoop 2.10.1
+- Hadoop 3.3.2
 - Java 8
 
 ## Images on Docker Hub

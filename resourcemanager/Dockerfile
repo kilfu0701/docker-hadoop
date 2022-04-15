@@ -1,4 +1,4 @@
-FROM kilfu0701/hadoop-base:2.10.1-java8
+FROM kilfu0701/hadoop-base:3.3.2-java8
 MAINTAINER BoRu Su <kilfu0701@gmail.com>
 
 HEALTHCHECK CMD curl -f http://localhost:8088/ || exit 1
